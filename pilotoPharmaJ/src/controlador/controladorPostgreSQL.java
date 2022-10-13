@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import modelo.conexionPostgreSQL;
+import modelo.consultasPostgre;
 import modelo.dtoProducto;
 import util.variablesConexionPostgreSQL;
 
@@ -29,6 +30,23 @@ public class controladorPostgreSQL {
 		System.out.println("[INFORMACIÓN-controladorPortgreSQL-main] Lamada generaConexion");
 		conexionPostgreSQL conexionPostgresql = new conexionPostgreSQL();
 		Connection conexionGenerada = conexionPostgresql.generaConexion(HOST,PORT,DB,USER,PASS);
+		
+		System.out.println("[INFORMACIÓN-controladorPortgreSQL-main] Llamada insertAllAlumnosAsignaturas");
+		consultasPostgre.insertProductos(conexionGenerada);
+		
+		System.out.println();
+		System.out.println("[INFORMACIÓN-controladorPortgreSQL-main] Lamada selectAllProductos");
+		listProductos = consultasPostgre.selectAllAlumnos(conexionGenerada);
+		int i = listProductos.size();
+		System.out.println("[INFORMACIÓN-controladorPortgreSQL-main] Número productos: "+i);
+		System.out.println("[INFORMACIÓN-HomeController-Index] Lista productos:");
+        for (dtoProducto producto: listProductos)
+        	System.out.println(producto.getMd_uuid() +" "+
+        			producto.getId_producto() +" "+ producto.getId_producto()+" "+producto.getCod_producto()+" "
+        			+producto.getNombre_producto()+" "+
+        			producto.getTipo_producto_origen()+" "+producto.getTipo_producto_clase() + producto.getDes_producto());
+        
+        conexionGenerada.close();
 	}
 
 }
